@@ -1,0 +1,24 @@
+---
+name: throughputramp
+templates:
+  run.erb: bin/run
+
+packages:
+  - throughputramp
+  - hey
+
+properties:
+  throughputramp.host:
+    description: Value of the host header when making a request to the backend.
+  throughputramp.num_requests:
+    description: number of requests.
+    default: 10000
+  throughputramp.thread_rate_limit:
+    description: Rate limit, in queries per second. Default is no rate limit.
+    default: 0
+  throughputramp.upper_concurrency:
+    description: Upper concurrency limit.
+  throughputramp.lower_concurrency:
+    description: Lower concurrency limit.
+  throughputramp.local_csv:
+    description: Local directory for the perf results.

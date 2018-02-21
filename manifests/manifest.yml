@@ -1,0 +1,39 @@
+name: "performance"
+
+releases:
+- name: bosh-performance-tests
+  version: latest
+
+stemcells:
+- alias: trusty
+  os: ubuntu-trusty
+  version: latest
+
+instance_groups:
+- name: throughputramp
+  instances: 1
+  lifecycle: errand
+  vm_type: default
+  stemcell: trusty
+  azs:
+  - z1
+  networks:
+  - name: default
+  jobs:
+  - name: throughputramp
+    release: bosh-performance-tests
+    properties:
+      throughputramp:
+        host: https://admin:((password))@((test_bosh_host)):25555/((endpoint))
+        num_requests: ((num_requests))
+        thread_rate_limit: ((thread_rate_limit))
+        upper_concurrency: ((upper_concurrency))
+        lower_concurrency: ((lower_concurrency))
+        local_csv: ((local_csv))
+
+update:
+  canaries: 1
+  canary_watch_time: 5000-120000
+  max_in_flight: 1
+  serial: false
+  update_watch_time: 5000-120000

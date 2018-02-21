@@ -1,0 +1,17 @@
+#!/bin/bash -ex
+
+RUN_DIR=/var/vcap/sys/run/throughputramp
+
+mkdir -p $RUN_DIR $LOG_DIR
+# clean up previous runs csv files
+rm -rf ${LOG_DIR}/*.csv
+
+chown -R vcap:vcap $RUN_DIR $LOG_DIR
+
+PATH=/var/vcap/packages/hey/bin:$PATH
+
+exec /var/vcap/packages/throughputramp/bin/throughputramp -n <%= p("throughputramp.num_requests") %> \
+  -q <%= p("throughputramp.thread_rate_limit") %> \
+  -lower-concurrency <%= p("throughputramp.lower_concurrency") %> \
+  -upper-concurrency <%= p("throughputramp.upper_concurrency") %> \
+  -local-csv <%= p("throughputramp.local_csv") %> <%= p("throughputramp.host") %>
