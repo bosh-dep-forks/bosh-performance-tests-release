@@ -1,0 +1,32 @@
+name: bosh-performance-tests
+version: "1"
+commit_hash: 71a6351
+uncommitted_changes: false
+jobs:
+- name: throughputramp
+  version: 4478bd4938a97c37e65d29de7e7d8336374998a6
+  fingerprint: 4478bd4938a97c37e65d29de7e7d8336374998a6
+  sha1: 0795600bf58427122a591edc2f041ba79c0cb94f
+packages:
+- name: golang
+  version: 0341c2a7627ea93d4eee54c5a59279605480e48d
+  fingerprint: 0341c2a7627ea93d4eee54c5a59279605480e48d
+  sha1: 90c47c3bf580f1207c298c94ca58a30e44b290e5
+  dependencies: []
+- name: hey
+  version: 743e3ac87a08a2e262d8b609e4e3000d7aa5f0b6
+  fingerprint: 743e3ac87a08a2e262d8b609e4e3000d7aa5f0b6
+  sha1: a5fab19909feec500f4b63a8729f778050f8fd03
+  dependencies:
+  - golang
+- name: throughputramp
+  version: 714463da392f175b3e9efcc44851a14ef64fc773
+  fingerprint: 714463da392f175b3e9efcc44851a14ef64fc773
+  sha1: 6f629b8d340bcfb3e2cf9d7b8572c4148ccb9a37
+  dependencies:
+  - golang
+  - hey
+license:
+  version: e0f8ddd8ac5a0fe6080f27cdaceebc095d9bd011
+  fingerprint: e0f8ddd8ac5a0fe6080f27cdaceebc095d9bd011
+  sha1: 4fdd851b1073d3bee326071c638d7e38fc4f19a6
