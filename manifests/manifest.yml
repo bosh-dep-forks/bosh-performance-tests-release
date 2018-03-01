@@ -10,13 +10,11 @@ stemcells:
   version: latest
 
 instance_groups:
-- name: throughputramp
+- name: throughputramp_instance
   instances: 1
   lifecycle: errand
-  vm_type: default
+  vm_type: throuputramp_vm
   stemcell: trusty
-  azs:
-  - z1
   networks:
   - name: default
   jobs:
@@ -24,7 +22,7 @@ instance_groups:
     release: bosh-performance-tests
     properties:
       throughputramp:
-        host: https://admin:((password))@((test_bosh_host)):25555/((endpoint))
+        director_url: https://admin:((password))@((test_bosh_host)):25555/((endpoint))
         num_requests: ((num_requests))
         thread_rate_limit: ((thread_rate_limit))
         upper_concurrency: ((upper_concurrency))

@@ -6,5 +6,7 @@ files:
   - github.com/rakyll/hey/*.go # gosub
   - github.com/rakyll/hey/requester/*.go # gosub
   - golang.org/x/net/http2/*.go # gosub
+  - golang.org/x/net/idna/*.go # gosub
   - golang.org/x/net/http2/hpack/*.go # gosub
   - golang.org/x/net/lex/httplex/*.go # gosub
+  - golang.org/x/text/**/*.go # gosub

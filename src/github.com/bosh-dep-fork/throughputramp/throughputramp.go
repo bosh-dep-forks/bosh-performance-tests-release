@@ -14,15 +14,13 @@ import (
 
 var (
 	numRequests      = flag.Int("n", 1000, "number of requests to send")
-	host             = flag.String("host", "", "Value of host header for backend request.")
 	interval         = flag.Int("i", 1, "interval in seconds to average throughput")
 	threadRateLimit  = flag.Int("q", 0, "thread rate limit")
 	lowerConcurrency = flag.Int("lower-concurrency", 1, "Starting concurrency value")
 	upperConcurrency = flag.Int("upper-concurrency", 30, "Ending concurrency value")
 	concurrencyStep  = flag.Int("concurrency-step", 1, "Concurrency increase per run")
-	accessKeyID     = flag.String("access-key-id", "", "AccessKeyID for the S3 service.")
-	secretAccessKey = flag.String("secret-access-key", "", "SecretAccessKey for the S3 service.")
 	localCSV = flag.String("local-csv", "", "Stores csv locally to a specified directory when the flag is set")
+	heyPath  = flag.String("hey-path", "hey", "Path to hey test hey")
 )
 
 func main() {
@@ -34,7 +32,7 @@ func main() {
 	router := flag.Args()[0]
 
 	runBenchmark(router,
-		*host,
+		*heyPath,
 		*numRequests,
 		*lowerConcurrency,
 		*upperConcurrency,
@@ -58,7 +56,7 @@ func writeFile(path string, data []byte) {
 }
 
 func runBenchmark(router,
-	host string,
+	heyPath string,
 	numRequests,
 	lowerConcurrency,
 	upperConcurrency,
@@ -67,14 +65,15 @@ func runBenchmark(router,
 
 	benchmarkData := new(bytes.Buffer)
 	for i := lowerConcurrency; i <= upperConcurrency; i += concurrencyStep {
-		heyData, benchmarkErr := run(router, host, numRequests, i, threshold)
+		heyData, benchmarkErr := run(router, heyPath, numRequests, i, threshold)
+
 		if benchmarkErr != nil {
 			fmt.Fprintf(os.Stderr, "%s\n", benchmarkErr)
 			os.Exit(1)
 		}
 
 		_, writeErr := benchmarkData.Write(heyData)
-		if benchmarkErr != nil {
+		if writeErr != nil {
 			fmt.Fprintf(os.Stderr, "Buffer error: %s\n", writeErr)
 			os.Exit(1)
 		}
@@ -87,10 +86,9 @@ func runBenchmark(router,
 	}
 }
 
-func run(router, host string, numRequests, concurrentRequests, rateLimit int) ([]byte, error) {
+func run(router, heyPath string, numRequests, concurrentRequests, rateLimit int) ([]byte, error) {
 	fmt.Fprintf(os.Stdout, "Running benchmark with %d requests, %d concurrency, and %d rate limit\n", numRequests, concurrentRequests, rateLimit)
 	args := []string{
-		"-host", host,
 		"-n", strconv.Itoa(numRequests),
 		"-c", strconv.Itoa(concurrentRequests),
 		"-q", strconv.Itoa(rateLimit),
@@ -98,10 +96,15 @@ func run(router, host string, numRequests, concurrentRequests, rateLimit int) ([
 		router,
 	}
 
-	heyData, err := exec.Command("hey", args...).Output()
+	heyData, err := exec.Command(heyPath, args...).Output()
 	if err != nil {
 		return nil, fmt.Errorf("hey error: %s\nData:\n%s", err, string(heyData))
 	}
+
+    if strings.Contains(strings.ToUpper(string(heyData)), "ERROR DISTRIBUTION") {
+	    return nil, fmt.Errorf("hey error: %s\n", string(heyData))
+	}
+
 	return selectCSVColumns(string(heyData)), nil
 }
 

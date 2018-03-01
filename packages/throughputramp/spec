@@ -4,4 +4,4 @@ dependencies:
   - golang
   - hey
 files:
-  - throughputramp/**/*.go # gosub
+  - github.com/bosh-dep-fork/throughputramp/**/*.go # gosub

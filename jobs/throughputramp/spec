@@ -8,8 +8,8 @@ packages:
   - hey
 
 properties:
-  throughputramp.host:
-    description: Value of the host header when making a request to the backend.
+  throughputramp.director_url:
+    description: The url of the director.
   throughputramp.num_requests:
     description: number of requests.
     default: 10000
