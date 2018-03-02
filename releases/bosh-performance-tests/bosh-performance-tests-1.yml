@@ -1,6 +1,6 @@
 name: bosh-performance-tests
 version: "1"
-commit_hash: 71a6351
+commit_hash: 375e052
 uncommitted_changes: false
 jobs:
 - name: throughputramp
