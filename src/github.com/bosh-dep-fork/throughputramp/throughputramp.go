@@ -111,7 +111,7 @@ func run(router, heyPath string, numRequests, concurrentRequests, rateLimit int)
 func selectCSVColumns(heyData string) []byte {
 	const (
 		startTime    = 0
-		responseTime = 6
+		responseTime = 1
 	)
 	r := csv.NewReader(strings.NewReader(heyData))
 
