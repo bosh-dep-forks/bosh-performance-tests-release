@@ -93,6 +93,7 @@ func run(router, heyPath string, numRequests, concurrentRequests, rateLimit int)
 		"-c", strconv.Itoa(concurrentRequests),
 		"-q", strconv.Itoa(rateLimit),
 		"-o", "csv",
+		"-t", "0",
 		router,
 	}
 
