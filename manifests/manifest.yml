@@ -27,6 +27,7 @@ instance_groups:
         thread_rate_limit: ((thread_rate_limit))
         upper_concurrency: ((upper_concurrency))
         lower_concurrency: ((lower_concurrency))
+        concurrency_step: ((concurrency_step))
         local_csv: ((local_csv))
 
 update:

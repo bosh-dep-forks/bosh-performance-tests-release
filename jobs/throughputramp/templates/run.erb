@@ -14,4 +14,5 @@ exec /var/vcap/packages/throughputramp/bin/throughputramp -n <%= p("throughputra
   -q <%= p("throughputramp.thread_rate_limit") %> \
   -lower-concurrency <%= p("throughputramp.lower_concurrency") %> \
   -upper-concurrency <%= p("throughputramp.upper_concurrency") %> \
+  -concurrency-step  <%= p("throughputramp.concurrency_step") %> \
   -local-csv <%= p("throughputramp.local_csv") %> <%= p("throughputramp.director_url") %>
